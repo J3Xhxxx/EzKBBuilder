@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ezkb-builder"
+version = "0.1.0"
+description = "Configurable, auditable knowledge-document production pipeline"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [{name = "Nebula X"}]
+requires-python = ">=3.11"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Text Processing",
+]
+dependencies = [
+  "beautifulsoup4>=4.12.3",
+  "python-dotenv>=1.0.1",
+  "PyYAML>=6.0.2",
+  "requests>=2.32.0",
+]
+
+[project.scripts]
+ezkb-builder = "knowledge_pipeline.cli.main:main"
+knowledge-pipeline = "knowledge_pipeline.cli.main:main"
+
+[project.urls]
+Repository = "https://github.com/J3Xhxxx/EzKBBuilder"
+Issues = "https://github.com/J3Xhxxx/EzKBBuilder/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["knowledge_pipeline*"]
+
+[tool.setuptools.package-data]
+knowledge_pipeline = ["profiles/*/*.yaml", "profiles/*/*.txt", "web/static/*", "demo_data/*.yaml", "demo_data/*.md"]

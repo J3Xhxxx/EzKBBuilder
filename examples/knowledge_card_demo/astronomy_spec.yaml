@@ -1,0 +1,9 @@
+document_id: CARD-ASTRONOMY-001
+title: 光年是什么，为什么看远方是在看过去
+profile_id: knowledge_card
+audience: 没有天文学基础的中文读者
+objective: 用简洁中文解释光年衡量什么、为什么远处天体的光呈现过去的状态，并选用太阳光传播时间作为例子。保留来源中的近似值，正文控制在450个汉字左右。
+metadata:
+  domain: 天文科普
+  card_type: concept
+  tags: [光年, 光传播, 天体距离]

@@ -1,0 +1,177 @@
+version: 1
+purpose: 星桥图书室知识卡的入库与问答验收用例
+execution_status: pending
+execution_note: 这是待执行用例，不代表已有检索结果、回答结果或验证成绩。
+source_file: examples/knowledge_card_demo/library_faq_source.md
+scope: 仅适用于本测试虚构的星桥图书室，与现实机构无关。
+answerability_note: >-
+  answerable_from_source 表示资料能否给出问题所求的具体信息。
+  false 用例仍应明确回答资料未规定，并保留对象范围；不能补造答案。
+acceptance_rule: >-
+  以合格可用为目标。措辞不同和少量冗余不阻断；关键事实错误、遗漏适用条件、
+  混淆对象范围或无依据编造答案均阻断。实际执行时另行记录输入、命中证据、
+  回答、判定及原因；本文件不预填执行结果。
+
+cases:
+  - id: library_hours
+    question: 星桥图书室什么时候开门，周日或周一能去吗？
+    alternate_questions:
+      - 星桥图书室的营业时间是什么？周末都开放吗？
+      - 星桥图书室哪几天开馆，每天几点到几点？
+    answerable_from_source: true
+    required_facts:
+      - 周二至周六每天 10:00—17:00 开放。
+      - 周日和周一不开放，不能将周末整体说成开放。
+    forbidden_claims:
+      - 每天开放，或周日开放。
+      - 将该时段解释成节假日也一定开放。
+    source_file: examples/knowledge_card_demo/library_faq_source.md
+    evidence_points:
+      - quote: 图书室周二至周六每天 10:00—17:00 开放，周日和周一不开放。
+
+  - id: library_registration
+    question: 我只在星桥图书室看书、不借走，也需要登记身份吗？借书呢？
+    alternate_questions:
+      - 到星桥图书室阅览和外借，登记要求一样吗？
+    answerable_from_source: true
+    required_facts:
+      - 到馆阅读不需要登记。
+      - 借书需要登记读者身份。
+    forbidden_claims:
+      - 到馆阅读也必须登记身份。
+      - 借书不需要登记。
+      - 指定身份证、押金或办卡材料；资料未提供这些要求。
+    source_file: examples/knowledge_card_demo/library_faq_source.md
+    evidence_points:
+      - quote: 到馆阅读不需要登记；借书需要登记读者身份。
+
+  - id: library_loan_limits
+    question: 星桥图书室的登记读者最多能同时借几本，每次能借多久？
+    alternate_questions:
+      - 星桥图书室外借上限是多少，借阅期限是几天？
+    answerable_from_source: true
+    required_facts:
+      - 每位登记读者同时最多借 3 本书。
+      - 每次借期为 14 天。
+      - 3 本是同时借阅上限，不能改成每天、每次或全年累计上限。
+    forbidden_claims:
+      - 每天可以再借 3 本，无须考虑已借数量。
+      - 每次借期为 7 天，或默认借期为 21 天。
+    source_file: examples/knowledge_card_demo/library_faq_source.md
+    evidence_points:
+      - quote: 每位登记读者同时最多借 3 本书，每次借期为 14 天。
+
+  - id: library_renewal_conditions
+    question: 星桥图书室的书还没到期、没被别人预约，也没续借过，想再多看几天，怎么办？
+    alternate_questions:
+      - 在星桥图书室借的书尚未到期且无人预约，第一次延长借期要怎么申请？
+    answerable_from_source: true
+    required_facts:
+      - 可以在到期前到服务台申请续借。
+      - 只能续借一次，续借增加 7 天。
+      - 已被其他读者预约的书不能续借；当前问题的未被预约前提符合该限制。
+    forbidden_claims:
+      - 无条件续借，或省略到期前、服务台、一次、增加 7 天中的关键要求。
+      - 可以在线申请续借，或系统自动续借。
+      - 续借增加 14 天，或可反复续借。
+    source_file: examples/knowledge_card_demo/library_faq_source.md
+    evidence_points:
+      - quote: 读者可以在到期前到服务台申请续借一次，续借增加 7 天；已被其他读者预约的书不能续借。
+
+  - id: library_reserved_no_renewal
+    question: 星桥图书室的书还没到期、也没续借过，但已经被其他读者预约了，还能续借吗？
+    alternate_questions:
+      - 我按时去星桥图书室服务台，但这本书有人预约，能再延长 7 天吗？
+    answerable_from_source: true
+    required_facts:
+      - 不能续借，因为书已被其他读者预约。
+      - 未到期、未续借过或去服务台申请，都不能取消预约这一限制。
+    forbidden_claims:
+      - 只要没到期就能续借一次。
+      - 到服务台即可续借，或预约不影响续借。
+    source_file: examples/knowledge_card_demo/library_faq_source.md
+    evidence_points:
+      - quote: 读者可以在到期前到服务台申请续借一次，续借增加 7 天；已被其他读者预约的书不能续借。
+
+  - id: library_second_renewal
+    question: 星桥图书室这本书已经续借过一次，现在还没到期，也没人预约，能再续借一次吗？
+    alternate_questions:
+      - 星桥图书室的书无人预约，我可以第二次延长借期吗？之前续借过一次。
+    answerable_from_source: true
+    required_facts:
+      - 不能再次续借，资料只允许续借一次。
+      - 未到期且无人预约不代表可突破一次的限制。
+    forbidden_claims:
+      - 没人预约就可以无限续借。
+      - 每次去服务台都可以再续借 7 天。
+      - 先归还再借一定能绕过续借限制；资料未规定这种操作。
+    source_file: examples/knowledge_card_demo/library_faq_source.md
+    evidence_points:
+      - quote: 读者可以在到期前到服务台申请续借一次，续借增加 7 天；已被其他读者预约的书不能续借。
+
+  - id: library_overdue_fee_unknown
+    question: 星桥图书室的书逾期一天要交多少钱？
+    alternate_questions:
+      - 星桥图书室晚还书会收滞纳金吗，按什么标准收？
+    answerable_from_source: false
+    required_facts:
+      - 资料未规定逾期收费，无法据此确定是否收费或收费金额。
+    forbidden_claims:
+      - 每天收费 1 元，或任何具体金额、宽限期与计算方式。
+      - 逾期免费，或逾期一定收费。
+    source_file: examples/knowledge_card_demo/library_faq_source.md
+    evidence_points:
+      - quote: 本资料未规定逾期收费、节假日安排、线上服务或馆址，不能据此推断这些信息。
+
+  - id: library_holiday_unknown
+    question: 如果节假日恰好是周三，星桥图书室一定照常开放吗？
+    alternate_questions:
+      - 星桥图书室遇到法定假日也按周二到周六的时间开门吗？
+    answerable_from_source: false
+    required_facts:
+      - 资料给出了常规周二至周六 10:00—17:00 的开放时间。
+      - 资料未规定节假日安排，不能据常规开放时间确认节假日是否开放。
+    forbidden_claims:
+      - 节假日是周三，所以一定开放。
+      - 所有节假日都闭馆，或自行补充调休规则。
+    source_file: examples/knowledge_card_demo/library_faq_source.md
+    evidence_points:
+      - quote: 图书室周二至周六每天 10:00—17:00 开放，周日和周一不开放。
+      - quote: 本资料未规定逾期收费、节假日安排、线上服务或馆址，不能据此推断这些信息。
+
+  - id: library_online_and_address_unknown
+    question: 星桥图书室能在网上续借吗？如果要去服务台，馆址在哪里？
+    alternate_questions:
+      - 星桥图书室有线上续借入口吗，线下办理地点的地址是什么？
+    answerable_from_source: false
+    required_facts:
+      - 资料明确的续借申请方式是到期前到服务台申请。
+      - 资料未规定线上服务，不能确认是否提供网上续借或入口。
+      - 资料未规定馆址，无法给出地址。
+    forbidden_claims:
+      - 提供编造的网站、公众号、应用名称或地址。
+      - 因为资料只写了服务台，就断言绝对没有线上服务。
+      - 将虚构图书室匹配为某个现实机构并给出其地址。
+    source_file: examples/knowledge_card_demo/library_faq_source.md
+    evidence_points:
+      - quote: 读者可以在到期前到服务台申请续借一次，续借增加 7 天；已被其他读者预约的书不能续借。
+      - quote: 本资料未规定逾期收费、节假日安排、线上服务或馆址，不能据此推断这些信息。
+      - quote: 星桥图书室是本测试虚构的服务场景，以下规则仅用于流程演示，与现实机构无关。
+
+  - id: library_scope_not_universal
+    question: 所有图书馆都是最多借 3 本、借 14 天吗？星桥的说明能证明这一点吗？
+    alternate_questions:
+      - 我能把星桥图书室的借阅规则当成所有现实图书馆的统一规定吗？
+    answerable_from_source: true
+    required_facts:
+      - 不能用此资料证明所有图书馆采用相同规则。
+      - 星桥图书室是本测试虚构的服务场景，规则仅用于流程演示，与现实机构无关。
+      - 最多同时借 3 本、每次借期 14 天是此资料对星桥图书室登记读者的规定。
+    forbidden_claims:
+      - 所有图书馆统一最多借 3 本、借期 14 天。
+      - 将星桥图书室描述为已核实的现实机构。
+      - 延伸给出其他图书馆的具体借阅规则；本资料没有这些信息。
+    source_file: examples/knowledge_card_demo/library_faq_source.md
+    evidence_points:
+      - quote: 星桥图书室是本测试虚构的服务场景，以下规则仅用于流程演示，与现实机构无关。
+      - quote: 每位登记读者同时最多借 3 本书，每次借期为 14 天。

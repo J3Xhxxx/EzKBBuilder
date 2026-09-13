@@ -1,0 +1,9 @@
+document_id: CARD-LIBRARY-001
+title: 星桥图书室借阅常见问答
+profile_id: knowledge_card
+audience: 面向星桥图书室借阅问题的知识库检索与问答
+objective: 依据来源回答开放时间、借阅额度、借期与续借条件；未说明的信息明确标注未知。
+metadata:
+  domain: 社区服务
+  card_type: faq
+  tags: [借阅, 图书室]

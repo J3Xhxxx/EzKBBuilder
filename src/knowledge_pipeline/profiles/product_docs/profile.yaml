@@ -1,0 +1,34 @@
+id: product_docs
+title: 产品使用文档
+version: "1.0"
+schema_version: PRODUCT-DOC-V1
+sections:
+  - id: overview
+    title: 功能概述
+    description: 产品能力、适用范围和版本边界。
+  - id: prerequisites
+    title: 前置条件
+    description: 使用前需要满足的环境、权限和依赖。
+  - id: procedure
+    title: 操作步骤
+    description: 可复现、按顺序执行的操作步骤。
+  - id: troubleshooting
+    title: 故障排查
+    description: 常见失败表现、原因、处理和恢复方式。
+repair:
+  max_attempts: 1
+evaluation:
+  checks:
+    - id: retrieval
+      title: 检索命中
+      description: 实际检索结果包含目标文档。
+    - id: version_scope
+      title: 版本范围
+      description: 回答保留正确的适用版本和限制。
+    - id: actionable_steps
+      title: 可执行步骤
+      description: 回答给出顺序清楚、可执行的操作。
+    - id: troubleshooting
+      title: 故障排查
+      description: 回答包含与问题相符的排错和恢复信息。
+domain: product_documentation

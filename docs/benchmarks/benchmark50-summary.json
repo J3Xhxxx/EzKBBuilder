@@ -1,0 +1,76 @@
+{
+  "cards": 50,
+  "machine_audit_pass": 50,
+  "retrieval_queries": 100,
+  "top1": 97,
+  "top3": 100,
+  "top5": 100,
+  "mrr_at_5": 0.985,
+  "qa_questions": 50,
+  "qa_correct": 50,
+  "negative_questions": 20,
+  "negative_correct": 20,
+  "domains": {
+    "PLC自动化": {
+      "cards": 10,
+      "top1": 19,
+      "top3": 20,
+      "retrieval_queries": 20,
+      "qa_correct": 10,
+      "negative_correct": 4
+    },
+    "数据处理": {
+      "cards": 10,
+      "top1": 20,
+      "top3": 20,
+      "retrieval_queries": 20,
+      "qa_correct": 10,
+      "negative_correct": 4
+    },
+    "数据库": {
+      "cards": 10,
+      "top1": 18,
+      "top3": 20,
+      "retrieval_queries": 20,
+      "qa_correct": 10,
+      "negative_correct": 4
+    },
+    "材料仿真": {
+      "cards": 10,
+      "top1": 20,
+      "top3": 20,
+      "retrieval_queries": 20,
+      "qa_correct": 10,
+      "negative_correct": 4
+    },
+    "统计建模": {
+      "cards": 10,
+      "top1": 20,
+      "top3": 20,
+      "retrieval_queries": 20,
+      "qa_correct": 10,
+      "negative_correct": 4
+    }
+  },
+  "review_method": "代理逐条核对已冻结参考事实、完整问答及必要的官方来源；不是独立领域专家复核，也不以 answerable 标志代替语义判断。",
+  "usage": {
+    "chat_attempts": 275,
+    "chat_responses": 275,
+    "chat_tokens": 1144932,
+    "chat_errors": {},
+    "embedding_requests": 29,
+    "embedding_tokens": 69345,
+    "chat_roles": {
+      "answer": 170,
+      "generate": 53,
+      "audit": 51,
+      "repair": 1
+    },
+    "excludes": "Preflight and interactive browser requests are separate; no monetary price inferred."
+  },
+  "generation_seconds": {
+    "median": 17.049999999999997,
+    "p95": 40.94,
+    "max": 66.3
+  }
+}

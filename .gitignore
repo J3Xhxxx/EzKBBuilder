@@ -1,0 +1,39 @@
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+env/
+.idea/
+.vscode/
+.claude/
+__pycache__/
+*.py[cod]
+*.bak
+*.bak_*
+*.log
+*.zip
+
+# 生命周期和运行产物
+exports/
+
+# 测试与工具缓存
+.pytest_cache/
+.playwright-cli/
+.coverage
+htmlcov/
+.knowledge-workspace*/
+.demo-workspace/
+.ui-qa-workspace/
+.web-smoke/
+output/
+*.egg-info/
+build/
+dist/
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+
+# 系统文件
+.DS_Store
+Thumbs.db

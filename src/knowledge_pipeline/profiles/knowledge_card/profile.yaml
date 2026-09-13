@@ -1,0 +1,47 @@
+id: knowledge_card
+title: 通用知识库卡
+version: "1.1"
+schema_version: KNOWLEDGE-CARD-V1
+sections:
+  - id: summary
+    title: 主题与范围
+    description: 明确知识对象、适用范围与可回答的问题；使检索命中的知识单元能独立识别。
+    required: true
+  - id: key_points
+    title: 知识正文
+    description: 可用于检索和回答问题的事实、规则、关系或方法；对象、条件、结论、例外与依据应就近保留。
+    required: true
+  - id: explanation
+    title: 详细解释
+    description: 回答目标问题确有需要的原理、关系、术语或背景；不为讲解效果补充无关内容。
+    required: false
+  - id: examples
+    title: 示例
+    description: 来源中已有且有助于消除问答歧义的具体例子；例子不能被推广为普遍规则。
+    required: false
+  - id: application
+    title: 使用规则与方法
+    description: 来源支持的适用场景、操作或处理方法；保留触发条件和结果，不强制所有知识都写步骤。
+    required: false
+  - id: boundaries
+    title: 适用边界
+    description: 来源范围、版本时效、限制及未覆盖事项；影响回答正确性的条件也必须与对应正文就近出现。
+    required: false
+repair:
+  max_attempts: 1
+evaluation:
+  checks:
+    - id: groundedness
+      title: 来源支撑
+      description: 事实与来源一致；卡片、知识片段与来源可对应追溯，没有无依据的结论或失效范围。
+    - id: relevance
+      title: 问题覆盖
+      description: 知识单元覆盖任务要求的问题，保留回答所需的条件、数据和例外，不混入其他对象的规则。
+    - id: clarity
+      title: 片段可独立理解
+      description: 脱离原文也能识别知识对象和规则前提；指代清楚，不依赖丢失的上下文，不把未知写成确定事实。
+    - id: retrieval
+      title: 入库检索与问答
+      description: 在目标知识库实际验证同义问法能召回正确片段，回答保留条件并正确引用，资料缺失的问题不编造。
+domain: general_knowledge
+purpose: knowledge_base

@@ -1,0 +1,10 @@
+document_id: CARD-OFFLINE-DEMO
+title: 保存可核对的资料笔记
+profile_id: knowledge_card
+audience: 初次使用知识整理流程的读者
+objective: 用自包含资料验证离线知识卡生成与人工复核流程。
+metadata:
+  domain: 资料整理
+  card_type: concept
+  tags:
+    - 离线演示

@@ -1,0 +1,8 @@
+document_id: DEMO-PRODUCT-001
+title: Aurora CLI 工作区初始化指南
+profile_id: product_docs
+audience: 首次使用命令行工具的开发人员
+objective: 说明如何初始化工作区、确认成功并处理目录非空错误。
+metadata:
+  product: Aurora CLI
+  version: "1.0"

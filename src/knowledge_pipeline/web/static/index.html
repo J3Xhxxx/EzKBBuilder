@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EzKBBuilder · 知识库内容生产工作台</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">EzKBBuilder · AUDITABLE KNOWLEDGE PIPELINE</div>
+      <h1>知识库内容生产工作台</h1>
+    </div>
+    <div class="environment">
+      <span id="providerBadge" class="badge">provider</span>
+      <span id="workspaceText" class="muted"></span>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel setup-panel">
+      <div class="section-head">
+        <div><span class="step-no">01</span><h2>创建入库知识单元</h2></div>
+        <span id="sourceRootText" class="muted"></span>
+      </div>
+      <p class="muted">依据来源整理知识卡，供知识库检索与问答使用。默认示例为虚构的星桥图书室借阅规则。</p>
+      <form id="runForm" class="form-grid">
+        <label>知识卡模板<select id="profile" required></select></label>
+        <label>知识卡 ID<input id="documentId" required maxlength="128" value="CARD-LIBRARY-001"></label>
+        <label class="span-2">标题<input id="title" required value="星桥图书室借阅常见问答"></label>
+        <label>领域（可选）<input id="domain" value="社区服务" placeholder="例如：社区服务、产品支持、内部制度"></label>
+        <label>知识类型<select id="cardType"><option value="concept">概念</option><option value="fact">事实</option><option value="method">方法</option><option value="faq" selected>问答</option></select></label>
+        <label class="span-2">标签（可选）<input id="tags" value="借阅,图书室" placeholder="多个标签用逗号分隔"></label>
+        <label>目标使用场景（可选）<input id="audience" value="面向星桥图书室借阅问题的知识库检索与问答"></label>
+        <label>知识目标（可选）<input id="objective" value="依据来源回答开放时间、借阅额度、借期与续借条件；未说明的信息明确标注未知。"></label>
+        <label class="span-2">来源文件路径 <small>每行一个，相对于 Source root；支持 .md / .txt</small>
+          <textarea id="sources" rows="3">examples/knowledge_card_demo/library_faq_source.md</textarea>
+        </label>
+        <label class="span-2">HTTPS 网页来源 <small id="allowedHostsText">每行一个；服务启动时必须显式加入域名白名单</small>
+          <textarea id="sourceUrls" rows="2" placeholder="https://docs.example.com/guide"></textarea>
+        </label>
+        <details class="advanced-settings span-2">
+          <summary>高级设置：模板扩展字段</summary>
+          <label>额外元数据（JSON）<small>一般知识卡无需填写；扩展模板可在这里添加 product、version 等专用字段。领域、知识类型、标签使用上方表单的值。</small><textarea id="metadata" rows="3">{}</textarea></label>
+        </details>
+        <div id="profileHint" class="profile-hint span-2"></div>
+        <button class="primary span-2" type="submit">开始生成与审计</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div><span class="step-no">02</span><h2>运行状态</h2></div>
+        <button id="refreshButton" class="ghost" type="button">刷新状态</button>
+      </div>
+      <div id="emptyState" class="empty">选择下方已有知识卡，或开始一个新任务。</div>
+      <div id="runView" hidden>
+        <div class="run-summary">
+          <div><strong id="activeTitle"></strong><span id="activeDocumentId" class="mono"></span></div>
+          <span id="stateBadge" class="state-badge"></span>
+        </div>
+        <ol id="timeline" class="timeline"></ol>
+        <div id="taskFeedback" class="feedback" role="status"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div><span class="step-no">03</span><h2>知识卡正文与来源核对</h2></div>
+        <span id="versionText" class="mono muted"></span>
+      </div>
+      <div id="auditBox" class="audit-box empty">生成与机器审计完成后，这里会显示知识卡正文、版本和审计结论。人工审核需核对来源依据、适用边界和未说明的信息。</div>
+      <article id="documentPreview" class="document-preview" hidden></article>
+      <details id="documentSource" class="version-diff" hidden>
+        <summary>高级：查看 Markdown 源文与版本元数据</summary>
+        <pre id="markdownSource"></pre>
+      </details>
+      <details id="versionDiff" class="version-diff" hidden>
+        <summary>查看与上一版本的段落差异</summary>
+        <pre id="diffPreview"></pre>
+      </details>
+      <form id="reviewForm" class="action-form" hidden>
+        <label>审核人<input id="reviewer" required placeholder="姓名或工号"></label>
+        <fieldset>
+          <legend>审核结论</legend>
+          <label class="radio"><input type="radio" name="decision" value="approve" checked> 通过</label>
+          <label class="radio"><input type="radio" name="decision" value="return"> 不通过，退回重新生成</label>
+        </fieldset>
+        <label class="wide">原因 / 备注<textarea id="reviewReason" rows="3" placeholder="不通过时必填，说明事实、来源依据或适用边界中需要修正的内容"></textarea></label>
+        <button class="primary" type="submit">提交人工审核</button>
+      </form>
+      <div id="reviewFeedback" class="feedback" role="status"></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head"><div><span class="step-no">04</span><h2>导出、发布与验收</h2></div></div>
+      <div class="three-columns">
+        <div class="action-card">
+          <h3>导出入库材料</h3><p>批准后生成 Markdown、JSON 和带清单的 ZIP，供后续导入知识库。</p>
+          <button id="exportButton" class="secondary" type="button" disabled>生成导出包</button>
+          <div id="downloadLinks" class="download-links"></div>
+        </div>
+        <form id="publishForm" class="action-card">
+          <h3>人工发布登记</h3>
+          <p>在目标系统完成导入或发布后，手动登记当前版本的发布记录。</p>
+          <label>操作人<input id="operator" required></label>
+          <label>目标<input id="publishTarget" value="manual"></label>
+          <label>外部编号（可选）<input id="externalId"></label>
+          <label class="check"><input id="publishConfirmed" type="checkbox"> 我确认当前版本已完成发布</label>
+          <button id="publishButton" class="secondary" type="submit" disabled>保存发布记录</button>
+        </form>
+        <form id="evaluationForm" class="action-card">
+          <h3>发布后人工验收</h3>
+          <p>根据实际检查结果填写；保存验收记录不会自动执行检索或问答测试。</p>
+          <label>验收人<input id="evaluator" required></label>
+          <div id="evaluationChecks" class="checks"></div>
+          <label>说明<textarea id="evaluationNotes" rows="2"></textarea></label>
+          <button id="evaluationButton" class="secondary" type="submit" disabled>保存本次验收</button>
+        </form>
+      </div>
+      <div id="releaseFeedback" class="feedback" role="status"></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head"><div><span class="step-no">05</span><h2>工作区知识卡</h2></div></div>
+      <div id="documentList" class="document-list"></div>
+    </section>
+    <section class="panel" id="retrievalPanel">
+      <div class="section-head"><div><span class="step-no">06</span><h2>检索与问答验证</h2></div></div>
+      <p class="muted">建立本地向量索引后，用实际问题检查命中的知识和回答依据。正式索引只收录已批准的有效版本。</p>
+      <form id="retrievalForm" class="form-grid">
+        <label class="check span-2"><input id="retrievalSandbox" type="checkbox"> 使用独立测试索引，包含待人工审核的卡片（不代表发布）</label>
+        <label class="span-2">检索问题<input id="retrievalQuestion" required placeholder="例如：PLC 输入变假后，哪个定时器能延迟关闭输出？"></label>
+        <label class="check span-2"><input id="retrievalAnswer" type="checkbox" checked> 根据命中依据生成回答</label>
+        <button id="rebuildIndex" class="secondary" type="button">建立 / 更新索引</button>
+        <button id="searchKnowledge" class="primary" type="submit">检索验证</button>
+      </form>
+      <div id="retrievalFeedback" class="feedback" role="status" aria-live="polite"></div>
+      <div id="retrievalResults" class="retrieval-results"></div>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="alert" hidden></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
